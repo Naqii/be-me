@@ -9,9 +9,11 @@ import {
   resizeMultipleImages,
   resizeSingleImage,
 } from '../middleware/resize.middleware';
+import videoController from '../controllers/video.controller';
+import imageController from '../controllers/image.controller';
 const router = express.Router();
 
-//Register Schema
+//register schema
 router.post(
   '/auth/register',
   authController.register
@@ -68,7 +70,7 @@ router.post(
  */
 );
 
-//Media Uploader Schema
+//media uploader schema
 router.post(
   '/media/single-pict',
   [
@@ -183,6 +185,130 @@ router.delete(
         $ref: "#/components/schemas/RemoveMediaRequest"
       }
     }
+   */
+);
+
+//video schema
+router.post(
+  '/videos',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  videoController.create
+  /*
+    #swagger.tags = ['Videos']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: "#/components/schemas/CreateVideosRequest"
+      }
+    }
+   */
+);
+router.get(
+  '/videos',
+  videoController.findAll
+  /*
+    #swagger.tags = ['Videos']
+  */
+);
+router.get(
+  '/videos/:id',
+  videoController.findOne
+  /*
+    #swagger.tags = ['Videos']
+  */
+);
+router.put(
+  '/videos/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  videoController.update
+  /*
+    #swagger.tags = ['Videos']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: "#/components/schemas/CreateVideosRequest"
+      }
+    }
+   */
+);
+router.delete(
+  '/videos/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  videoController.remove
+  /*
+    #swagger.tags = ['Videos']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+   */
+);
+
+//image schema
+router.post(
+  '/images',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  imageController.create
+  /*
+    #swagger.tags = ['Images']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: "#/components/schemas/CreateImageRequest"
+      }
+    }
+   */
+);
+router.get(
+  '/images',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  imageController.findAll
+  /*
+    #swagger.tags = ['Images']
+  */
+);
+router.get(
+  '/images/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  imageController.findOne
+  /*
+    #swagger.tags = ['Images']
+  */
+);
+router.put(
+  '/images/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  imageController.update
+  /*
+    #swagger.tags = ['Images']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: "#/components/schemas/CreateImageRequest"
+      }
+    }
+   */
+);
+router.delete(
+  '/images/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  imageController.remove
+  /*
+    #swagger.tags = ['Images']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
    */
 );
 
