@@ -349,13 +349,6 @@
         "description": "",
         "parameters": [
           {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "limit",
             "in": "query",
             "schema": {
@@ -395,13 +388,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
             "schema": {
               "type": "string"
             }
@@ -772,6 +758,10 @@
           "title": {
             "type": "string",
             "example": "title videos"
+          },
+          "thumbnail": {
+            "type": "string",
+            "example": "example https://res.cloudinary.com/dzfxaqjrp/image/"
           },
           "video": {
             "type": "string",

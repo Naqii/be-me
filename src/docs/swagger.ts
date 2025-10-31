@@ -49,6 +49,7 @@ const doc = {
 
       CreateVideosRequest: {
         title: 'title videos',
+        thumbnail: 'example https://res.cloudinary.com/dzfxaqjrp/image/',
         video:
           'example https://res.cloudinary.com/dzfxaqjrp/image/upload/v1746499157/sxby3i5a1ttjwzx9i8od.webp',
         isShow: true,
