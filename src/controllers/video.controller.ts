@@ -120,11 +120,9 @@ export default {
 
       if (!result) return response.notFound(res, 'Video not found');
 
-      await uploader.remove(result?.video);
-
-      response.success(res, result, 'success remove a banner');
+      response.success(res, result, 'success remove a video');
     } catch (error) {
-      response.error(res, error, 'failed to remove a banner');
+      response.error(res, error, 'failed to remove a video');
     }
   },
 };
