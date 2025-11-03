@@ -1,6 +1,5 @@
 import { Response } from 'express';
 import { IPaginationQuery, IReqUser } from '../utils/interface';
-import VideoModel, { TypeVideo, videoDTO } from '../models/video.model';
 import response from '../utils/response';
 import { FilterQuery, isValidObjectId } from 'mongoose';
 import uploader from '../utils/uploader';
