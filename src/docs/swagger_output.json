@@ -2,8 +2,8 @@
   "openapi": "3.0.0",
   "info": {
     "version": "v0.0.1",
-    "title": "Dokumentasi API PAC Information System",
-    "description": "Dokumentasi API PAC Kramas Infromation System"
+    "title": "Dokumentasi API ME",
+    "description": "Dokumentasi API My Portofolio"
   },
   "servers": [
     {
@@ -11,7 +11,7 @@
       "description": "Local Server"
     },
     {
-      "url": "https://be-pac-information-system.vercel.app/api",
+      "url": "https://be-me.vercel.app/api",
       "description": "Deploy Server"
     }
   ],
@@ -689,11 +689,11 @@
         "properties": {
           "identifier": {
             "type": "string",
-            "example": "member2025@yopmail.com"
+            "example": "admin"
           },
           "password": {
             "type": "string",
-            "example": "Member2025"
+            "example": "AdminHaqi123"
           }
         },
         "xml": {

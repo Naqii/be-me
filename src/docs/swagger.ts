@@ -3,8 +3,8 @@ import swaggerAutogen from 'swagger-autogen';
 const doc = {
   info: {
     version: 'v0.0.1',
-    title: 'Dokumentasi API PAC Information System',
-    description: 'Dokumentasi API PAC Kramas Infromation System',
+    title: 'Dokumentasi API ME',
+    description: 'Dokumentasi API My Portofolio',
   },
 
   servers: [
@@ -13,7 +13,7 @@ const doc = {
       description: 'Local Server',
     },
     {
-      url: 'https://be-pac-information-system.vercel.app/api',
+      url: 'https://be-me.vercel.app/api',
       description: 'Deploy Server',
     },
   ],
@@ -27,8 +27,8 @@ const doc = {
     },
     schemas: {
       LoginRequest: {
-        identifier: 'member2025@yopmail.com',
-        password: 'Member2025',
+        identifier: 'admin',
+        password: 'AdminHaqi123',
       },
 
       RegisterRequest: {
