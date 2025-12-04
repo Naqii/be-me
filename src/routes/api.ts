@@ -269,7 +269,6 @@ router.post(
 );
 router.get(
   '/images',
-  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   imageController.findAll
   /*
     #swagger.tags = ['Images']
@@ -277,7 +276,6 @@ router.get(
 );
 router.get(
   '/images/:id',
-  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   imageController.findOne
   /*
     #swagger.tags = ['Images']
