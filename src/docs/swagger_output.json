@@ -529,13 +529,6 @@
         "description": "",
         "parameters": [
           {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "limit",
             "in": "query",
             "schema": {
@@ -575,13 +568,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
             "schema": {
               "type": "string"
             }
@@ -760,6 +746,10 @@
             "example": "title videos"
           },
           "video": {
+            "type": "string",
+            "example": "example https://res.cloudinary.com/dzfxaqjrp/video/upload/v1746499157/sxby3i5a1ttjwzx9i8od.webp"
+          },
+          "thumbnail": {
             "type": "string",
             "example": "example https://res.cloudinary.com/dzfxaqjrp/image/upload/v1746499157/sxby3i5a1ttjwzx9i8od.webp"
           },

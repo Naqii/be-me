@@ -50,6 +50,8 @@ const doc = {
       CreateVideosRequest: {
         title: 'title videos',
         video:
+          'example https://res.cloudinary.com/dzfxaqjrp/video/upload/v1746499157/sxby3i5a1ttjwzx9i8od.webp',
+        thumbnail:
           'example https://res.cloudinary.com/dzfxaqjrp/image/upload/v1746499157/sxby3i5a1ttjwzx9i8od.webp',
         isShow: true,
       },

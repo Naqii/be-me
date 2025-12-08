@@ -5,6 +5,7 @@ export const VIDEO_MODEL_NAME = 'Video';
 
 export const videoDTO = Yup.object({
   title: Yup.string().required(),
+  thumbnail: Yup.string().required(),
   video: Yup.string().required(),
   isShow: Yup.boolean().required(),
 });
@@ -20,6 +21,10 @@ const VideoSchema = new Schema<Video>(
       required: true,
     },
     video: {
+      type: Schema.Types.String,
+      required: true,
+    },
+    thumbnail: {
       type: Schema.Types.String,
       required: true,
     },
