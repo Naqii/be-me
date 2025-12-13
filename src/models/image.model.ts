@@ -18,6 +18,7 @@ const imageSchema = new Schema<Image>(
     title: {
       type: Schema.Types.String,
       required: true,
+      unique: true,
     },
 
     image: {

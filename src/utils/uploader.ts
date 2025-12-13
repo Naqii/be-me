@@ -30,6 +30,31 @@ const getPublicIdFromFileUrl = (fileUrl: string) => {
 };
 
 export default {
+  async uploadArchive(file: Express.Multer.File) {
+    try {
+      const allowedMimeTypes = [
+        'application/zip',
+        'application/x-rar-compressed',
+        'application/x-7z-compressed',
+        'application/x-tar',
+        'application/gzip',
+      ];
+
+      if (!allowedMimeTypes.includes(file.mimetype)) {
+        throw new Error('Invalid archive format');
+      }
+
+      const fileDataURL = toDataURL(file);
+      const result = await cloudinary.uploader.upload(fileDataURL, {
+        resource_type: 'raw',
+      });
+      return result;
+    } catch (error) {
+      console.error('Error uploading archive: ', error);
+      throw new Error('Failed to upload archive');
+    }
+  },
+
   async uploadSingle(file: Express.Multer.File) {
     try {
       const fileDataURL = toDataURL(file);

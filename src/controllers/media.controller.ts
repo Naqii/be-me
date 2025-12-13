@@ -49,6 +49,21 @@ export default {
     }
   },
 
+  async uploadArchive(req: IReqUser, res: Response) {
+    if (!req.file) {
+      return response.error(res, null, 'file does not exist');
+    }
+
+    try {
+      const result = await uploader.uploadArchive(
+        req.file as Express.Multer.File
+      );
+      response.success(res, result, 'archive uploaded successfully');
+    } catch (error) {
+      response.error(res, null, 'archive upload failed');
+    }
+  },
+
   async remove(req: IReqUser, res: Response) {
     try {
       const { fileUrl } = req.body as { fileUrl: string };

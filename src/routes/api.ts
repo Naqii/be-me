@@ -11,6 +11,9 @@ import {
 } from '../middleware/resize.middleware';
 import videoController from '../controllers/video.controller';
 import imageController from '../controllers/image.controller';
+import workController from '../controllers/work.controller';
+import assetsController from '../controllers/assets.controller';
+import templateController from '../controllers/template.controller';
 const router = express.Router();
 
 //register schema
@@ -81,6 +84,37 @@ router.post(
   //catatan: ukuran gambar max 1200px dan kualitas 80
   resizeSingleImage(1200, 80),
   mediaController.singlePict
+  /*
+    #swagger.tags = ['Media']
+    #swagger.security = [{
+      "bearerAuth": []
+    }]
+    #swagger.requestBody = {
+      required: true,
+      content: {
+        "multipart/form-data": {
+          schema: {
+            type: "object",
+            properties: {
+              file: {
+                type: "string",
+                format: "binary"
+              }  
+            }
+          }
+        }
+      }
+    }
+  */
+);
+router.post(
+  '/media/upload-arch',
+  [
+    authMiddleware,
+    aclMiddleware([ROLES.ADMIN]),
+    mediaMiddleware.single('file'),
+  ],
+  mediaController.uploadArchive
   /*
     #swagger.tags = ['Media']
     #swagger.security = [{
@@ -304,6 +338,189 @@ router.delete(
   imageController.remove
   /*
     #swagger.tags = ['Images']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+   */
+);
+
+//work schema
+router.post(
+  '/works',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  workController.create
+  /*
+    #swagger.tags = ['Work']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: "#/components/schemas/CreateWorkRequest"
+      }
+    }
+   */
+);
+router.get(
+  '/works',
+  workController.findAll
+  /*
+    #swagger.tags = ['Work']
+  */
+);
+router.get(
+  '/works/:id',
+  workController.findOne
+  /*
+    #swagger.tags = ['Work']
+  */
+);
+router.put(
+  '/works/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  workController.update
+  /*
+    #swagger.tags = ['Work']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: "#/components/schemas/CreateWorkRequest"
+      }
+    }
+   */
+);
+router.delete(
+  '/works/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  workController.remove
+  /*
+    #swagger.tags = ['Work']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+   */
+);
+
+//template schema
+router.post(
+  '/templates',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  templateController.create
+  /*
+    #swagger.tags = ['Template']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: "#/components/schemas/CreateTemplateRequest"
+      }
+    }
+   */
+);
+router.get(
+  '/templates',
+  templateController.findAll
+  /*
+    #swagger.tags = ['Template']
+  */
+);
+router.get(
+  '/templates/:id',
+  templateController.findOne
+  /*
+    #swagger.tags = ['Template']
+  */
+);
+router.put(
+  '/templates/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  imageController.update
+  /*
+    #swagger.tags = ['Template']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: "#/components/schemas/CreateTemplateRequest"
+      }
+    }
+   */
+);
+router.delete(
+  '/templates/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  imageController.remove
+  /*
+    #swagger.tags = ['Template']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+   */
+);
+
+//assets schema
+router.post(
+  '/assets',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  assetsController.create
+  /*
+    #swagger.tags = ['Asset']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: "#/components/schemas/CreateAssetRequest"
+      }
+    }
+   */
+);
+router.get(
+  '/assets',
+  assetsController.findAll
+  /*
+    #swagger.tags = ['Asset']
+  */
+);
+router.get(
+  '/assets/:id',
+  assetsController.findOne
+  /*
+    #swagger.tags = ['Asset']
+  */
+);
+router.put(
+  '/assets/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  assetsController.update
+  /*
+    #swagger.tags = ['Asset']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: "#/components/schemas/CreateAssetRequest"
+      }
+    }
+   */
+);
+router.delete(
+  '/assets/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  assetsController.remove
+  /*
+    #swagger.tags = ['Asset']
     #swagger.security = [{
       "bearerAuth": {}
     }]

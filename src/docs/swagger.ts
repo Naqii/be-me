@@ -62,6 +62,34 @@ const doc = {
           'example https://res.cloudinary.com/dzfxaqjrp/image/upload/v1746499157/sxby3i5a1ttjwzx9i8od.webp',
         isShow: true,
       },
+
+      CreateWorkRequest: {
+        title: 'Finall Project Video',
+        thumbnail:
+          'https://res.cloudinary.com/dzfxaqjrp/image/upload/v1765185863/fupzcsm2gdtsygavtysb.webp',
+        content: 'https://youtu.be/zsXN01GRPGw',
+        description:
+          'Video ini merupakan cuplikan dari video akhir proyek yang saya kerjakan sewaktu menjadi tim dokumentasi Proyek Pembangunan SPAM Regional WOSUSOKAS Wonogiri',
+        isShow: true,
+        dateFinished: '2025-01-01',
+      },
+
+      CreateAssetRequest: {
+        title: 'Minecraft-Damaged-1',
+        thumbnail:
+          'https://res.cloudinary.com/dzfxaqjrp/image/upload/v1765185863/fupzcsm2gdtsygavtysb.webp',
+        asset:
+          'https://res.cloudinary.com/dzfxaqjrp/raw/upload/v1765524968/jjrz28rrobsw6gik3blt',
+        type: 'ObjectId',
+        isShow: true,
+        dateFinished: '2025-01-01',
+      },
+
+      CreateTemplateRequest: {
+        name: 'Animation',
+        description: 'Animation',
+        icon: 'https://res.cloudinary.com/dzfxaqjrp/image/upload/v1765531070/ywhci8wzszuxyxhdyvru.webp',
+      },
     },
   },
 };

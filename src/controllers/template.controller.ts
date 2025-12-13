@@ -1,30 +1,33 @@
 import { Response } from 'express';
-import { IPaginationQuery, IReqUser } from '../utils/interface';
 import response from '../utils/response';
+import { IPaginationQuery, IReqUser } from '../utils/interface';
+import TemplateModel, {
+  templateDTO,
+  TypeTemplate,
+} from '../models/template.model';
 import { FilterQuery, isValidObjectId } from 'mongoose';
 import uploader from '../utils/uploader';
-import ImageModel, { imageDTO, TypeImage } from '../models/image.model';
 
 export default {
   async create(req: IReqUser, res: Response) {
     try {
-      const payload = { ...req.body } as TypeImage;
+      const payload = { ...req.body } as TypeTemplate;
 
-      const existingByTitle = await ImageModel.findOne({
-        title: payload.title,
+      const existingByName = await TemplateModel.findOne({
+        name: payload.name,
       });
-      if (existingByTitle)
+      if (existingByName)
         return response.error(
           res,
           null,
-          'Image with the same title already exists'
+          'Template with the same name already exists'
         );
 
-      await imageDTO.validate(payload);
-      const result = await ImageModel.create(payload);
-      response.success(res, result, 'success to create a image');
+      await templateDTO.validate(payload);
+      const result = await TemplateModel.create(payload);
+      response.success(res, result, 'success to create a template');
     } catch (error) {
-      response.error(res, error, 'failed to create a image');
+      response.error(res, error, 'failed to create a template');
     }
   },
   async findAll(req: IReqUser, res: Response) {
@@ -35,7 +38,7 @@ export default {
         search,
       } = req.query as unknown as IPaginationQuery;
 
-      const query: FilterQuery<TypeImage> = {};
+      const query: FilterQuery<TypeTemplate> = {};
 
       if (search) {
         Object.assign(query, {
@@ -46,13 +49,13 @@ export default {
         });
       }
 
-      const result = await ImageModel.find(query)
+      const result = await TemplateModel.find(query)
         .limit(limit)
         .skip((page - 1) * limit)
         .sort({ createdAt: -1 })
         .exec();
 
-      const count = await ImageModel.countDocuments(query);
+      const count = await TemplateModel.countDocuments(query);
 
       response.pagination(
         res,
@@ -62,10 +65,10 @@ export default {
           current: page,
           totalPages: Math.ceil(count / limit),
         },
-        'success find All images'
+        'success find All template'
       );
     } catch (error) {
-      response.error(res, error, 'failed to find all images');
+      response.error(res, error, 'failed to find all template');
     }
   },
   async findOne(req: IReqUser, res: Response) {
@@ -73,18 +76,18 @@ export default {
       const { id } = req.params;
 
       if (!isValidObjectId(id)) {
-        return response.notFound(res, 'failed find a image');
+        return response.notFound(res, 'failed find a template');
       }
 
-      const result = await ImageModel.findById(id);
+      const result = await TemplateModel.findById(id);
 
       if (!result) {
-        return response.notFound(res, 'failed find a image');
+        return response.notFound(res, 'failed find a template');
       }
 
-      response.success(res, result, 'success find one image');
+      response.success(res, result, 'success find one template');
     } catch (error) {
-      response.error(res, error, 'failed to find a image');
+      response.error(res, error, 'failed to find a template');
     }
   },
   async update(req: IReqUser, res: Response) {
@@ -92,15 +95,15 @@ export default {
       const { id } = req.params;
 
       if (!isValidObjectId(id)) {
-        return response.notFound(res, 'failed to update a image');
+        return response.notFound(res, 'failed to update a template');
       }
 
-      const result = await ImageModel.findByIdAndUpdate(id, req.body, {
+      const result = await TemplateModel.findByIdAndUpdate(id, req.body, {
         new: true,
       });
-      response.success(res, result, 'success update a image');
+      response.success(res, result, 'success update a template');
     } catch (error) {
-      response.error(res, error, 'failed to update a image');
+      response.error(res, error, 'failed to update a template');
     }
   },
   async remove(req: IReqUser, res: Response) {
@@ -108,16 +111,16 @@ export default {
       const { id } = req.params;
 
       if (!isValidObjectId(id)) {
-        return response.notFound(res, 'failed to remove a image');
+        return response.notFound(res, 'failed to remove a template');
       }
 
-      const result = await ImageModel.findByIdAndDelete(id, {
+      const result = await TemplateModel.findByIdAndDelete(id, {
         new: true,
       });
 
       if (!result) return response.notFound(res, 'image not found');
 
-      await uploader.remove(result?.image);
+      await uploader.remove(result?.icon);
 
       response.success(res, result, 'success remove a banner');
     } catch (error) {

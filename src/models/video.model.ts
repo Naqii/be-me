@@ -19,6 +19,7 @@ const VideoSchema = new Schema<Video>(
     title: {
       type: Schema.Types.String,
       required: true,
+      unique: true,
     },
     video: {
       type: Schema.Types.String,
