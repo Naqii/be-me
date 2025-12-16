@@ -9,7 +9,7 @@ export const workDTO = Yup.object({
   content: Yup.string().required(),
   description: Yup.string().required(),
   isShow: Yup.boolean().required(),
-  dateFinished: Yup.date().required(),
+  dateFinished: Yup.string().required(),
 });
 
 export type TypeWork = Yup.InferType<typeof workDTO>;
@@ -45,7 +45,7 @@ const workSchema = new Schema<Work>(
     },
 
     dateFinished: {
-      type: Schema.Types.Date,
+      type: Schema.Types.String,
       required: true,
     },
   },
