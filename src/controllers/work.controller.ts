@@ -3,6 +3,7 @@ import WorkModel, { TypeWork, workDTO } from '../models/work.model';
 import { IPaginationQuery, IReqUser } from '../utils/interface';
 import response from '../utils/response';
 import { Response } from 'express';
+import uploader from '../utils/uploader';
 
 export default {
   async create(req: IReqUser, res: Response) {
@@ -111,18 +112,20 @@ export default {
       const { id } = req.params;
 
       if (!isValidObjectId(id)) {
-        return response.notFound(res, 'failed to remove an work');
+        return response.notFound(res, 'failed to remove a thumbnail');
       }
 
       const result = await WorkModel.findByIdAndDelete(id, {
         new: true,
       });
 
-      if (!result) return response.notFound(res, 'work not found');
+      if (!result) return response.notFound(res, 'thumbnail not found');
 
-      response.success(res, result, 'success remove an work');
+      await uploader.remove(result?.thumbnail);
+
+      response.success(res, result, 'success remove a work');
     } catch (error) {
-      response.error(res, error, 'failed to remove an work');
+      response.error(res, error, 'failed to remove a work');
     }
   },
 };
