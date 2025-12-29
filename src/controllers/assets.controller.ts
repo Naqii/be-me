@@ -3,6 +3,7 @@ import AssetModel, { assetsDTO, TypeAssets } from '../models/assets.model';
 import { IPaginationQuery, IReqUser } from '../utils/interface';
 import response from '../utils/response';
 import { Response } from 'express';
+import uploader from '../utils/uploader';
 
 export default {
   async create(req: IReqUser, res: Response) {
@@ -119,6 +120,9 @@ export default {
       });
 
       if (!result) return response.notFound(res, 'asset not found');
+
+      await uploader.remove(result?.thumbnail);
+      await uploader.remove(result?.asset);
 
       response.success(res, result, 'success remove an asset');
     } catch (error) {
