@@ -121,7 +121,9 @@ export default {
 
       if (!result) return response.notFound(res, 'thumbnail not found');
 
-      await uploader.remove(result?.thumbnail);
+      const { publicId, resourceType } = result.thumbnail;
+
+      await uploader.remove(publicId, resourceType);
 
       response.success(res, result, 'success remove a work');
     } catch (error) {

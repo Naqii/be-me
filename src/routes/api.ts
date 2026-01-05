@@ -5,7 +5,6 @@ import aclMiddleware from '../middleware/acl.middleware';
 import mediaMiddleware from '../middleware/media.middleware';
 import { ROLES } from '../utils/constant';
 import mediaController from '../controllers/media.controller';
-import videoController from '../controllers/video.controller';
 import imageController from '../controllers/image.controller';
 import workController from '../controllers/work.controller';
 import assetsController from '../controllers/assets.controller';
@@ -212,67 +211,6 @@ router.delete(
         $ref: "#/components/schemas/RemoveMediaRequest"
       }
     }
-   */
-);
-
-//video schema
-router.post(
-  '/videos',
-  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
-  videoController.create
-  /*
-    #swagger.tags = ['Videos']
-    #swagger.security = [{
-      "bearerAuth": {}
-    }]
-    #swagger.requestBody = {
-      required: true,
-      schema: {
-        $ref: "#/components/schemas/CreateVideosRequest"
-      }
-    }
-   */
-);
-router.get(
-  '/videos',
-  videoController.findAll
-  /*
-    #swagger.tags = ['Videos']
-  */
-);
-router.get(
-  '/videos/:id',
-  videoController.findOne
-  /*
-    #swagger.tags = ['Videos']
-  */
-);
-router.put(
-  '/videos/:id',
-  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
-  videoController.update
-  /*
-    #swagger.tags = ['Videos']
-    #swagger.security = [{
-      "bearerAuth": {}
-    }]
-    #swagger.requestBody = {
-      required: true,
-      schema: {
-        $ref: "#/components/schemas/CreateVideosRequest"
-      }
-    }
-   */
-);
-router.delete(
-  '/videos/:id',
-  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
-  videoController.remove
-  /*
-    #swagger.tags = ['Videos']
-    #swagger.security = [{
-      "bearerAuth": {}
-    }]
    */
 );
 
