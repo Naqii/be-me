@@ -1356,13 +1356,26 @@
             "type": "string",
             "example": "title images"
           },
-          "image": {
-            "type": "string",
-            "example": "example https://res.cloudinary.com/dzfxaqjrp/image/upload/v1746499157/sxby3i5a1ttjwzx9i8od.webp"
-          },
           "isShow": {
             "type": "boolean",
             "example": true
+          },
+          "image": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "example": ""
+              },
+              "publicId": {
+                "type": "string",
+                "example": ""
+              },
+              "resourceType": {
+                "type": "string",
+                "example": "image"
+              }
+            }
           }
         },
         "xml": {
@@ -1377,8 +1390,21 @@
             "example": "Finall Project Video"
           },
           "thumbnail": {
-            "type": "string",
-            "example": "https://res.cloudinary.com/dzfxaqjrp/image/upload/v1765185863/fupzcsm2gdtsygavtysb.webp"
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "example": ""
+              },
+              "publicId": {
+                "type": "string",
+                "example": ""
+              },
+              "resourceType": {
+                "type": "string",
+                "example": "image"
+              }
+            }
           },
           "content": {
             "type": "string",
@@ -1409,12 +1435,38 @@
             "example": "Minecraft-Damaged-1"
           },
           "thumbnail": {
-            "type": "string",
-            "example": "https://res.cloudinary.com/dzfxaqjrp/image/upload/v1765185863/fupzcsm2gdtsygavtysb.webp"
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "example": ""
+              },
+              "publicId": {
+                "type": "string",
+                "example": ""
+              },
+              "resourceType": {
+                "type": "string",
+                "example": "image"
+              }
+            }
           },
           "asset": {
-            "type": "string",
-            "example": "https://res.cloudinary.com/dzfxaqjrp/raw/upload/v1765524968/jjrz28rrobsw6gik3blt"
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "example": ""
+              },
+              "publicId": {
+                "type": "string",
+                "example": ""
+              },
+              "resourceType": {
+                "type": "string",
+                "example": "raw"
+              }
+            }
           },
           "type": {
             "type": "string",

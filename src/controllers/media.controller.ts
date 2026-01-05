@@ -66,20 +66,20 @@ export default {
 
   async remove(req: IReqUser, res: Response) {
     try {
-      const { public_id, resource_type } = req.body as {
-        public_id: string;
-        resource_type: 'image' | 'video' | 'raw';
+      const { publicId, resourceType } = req.body as {
+        publicId: string;
+        resourceType: 'image' | 'video' | 'raw';
       };
 
-      if (!public_id || !resource_type) {
+      if (!publicId || !resourceType) {
         return response.error(
           res,
           null,
-          'public_id and resource_type are required'
+          'publicId and resourceType are required'
         );
       }
 
-      const result = await uploader.remove(public_id, resource_type);
+      const result = await uploader.remove(publicId, resourceType);
 
       response.success(res, result, 'file removed successfully');
     } catch (error) {

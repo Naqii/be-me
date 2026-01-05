@@ -108,20 +108,22 @@ export default {
       const { id } = req.params;
 
       if (!isValidObjectId(id)) {
-        return response.notFound(res, 'failed to remove a image');
+        return response.notFound(res, 'image not found');
       }
 
-      const result = await ImageModel.findByIdAndDelete(id, {
-        new: true,
-      });
+      const result = await ImageModel.findByIdAndDelete(id);
 
-      if (!result) return response.notFound(res, 'image not found');
+      if (!result) {
+        return response.notFound(res, 'image not found');
+      }
 
-      await uploader.remove(result?.image);
+      const { publicId, resourceType } = result.image;
 
-      response.success(res, result, 'success remove a banner');
+      await uploader.remove(publicId, resourceType);
+
+      response.success(res, result, 'success remove image');
     } catch (error) {
-      response.error(res, error, 'failed to remove a banner');
+      response.error(res, error, 'failed to remove image');
     }
   },
 };
