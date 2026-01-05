@@ -44,7 +44,8 @@ const doc = {
       },
 
       RemoveMediaRequest: {
-        fileUrl: '',
+        public_id: '',
+        resource_type: 'image/video/raw',
       },
 
       CreateVideosRequest: {
@@ -82,7 +83,7 @@ const doc = {
           'https://res.cloudinary.com/dzfxaqjrp/raw/upload/v1765524968/jjrz28rrobsw6gik3blt',
         type: 'ObjectId',
         isShow: true,
-        dateFinished: '2025-01-01',
+        updated: '2025-01-01',
       },
 
       CreateTemplateRequest: {

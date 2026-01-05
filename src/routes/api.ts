@@ -5,10 +5,6 @@ import aclMiddleware from '../middleware/acl.middleware';
 import mediaMiddleware from '../middleware/media.middleware';
 import { ROLES } from '../utils/constant';
 import mediaController from '../controllers/media.controller';
-import {
-  resizeMultipleImages,
-  resizeSingleImage,
-} from '../middleware/resize.middleware';
 import videoController from '../controllers/video.controller';
 import imageController from '../controllers/image.controller';
 import workController from '../controllers/work.controller';
@@ -81,8 +77,6 @@ router.post(
     aclMiddleware([ROLES.ADMIN]),
     mediaMiddleware.single('file'),
   ],
-  //catatan: ukuran gambar max 1200px dan kualitas 80
-  resizeSingleImage(1200, 80),
   mediaController.singlePict
   /*
     #swagger.tags = ['Media']
@@ -108,7 +102,7 @@ router.post(
   */
 );
 router.post(
-  '/media/upload-arch',
+  '/media/single-arch',
   [
     authMiddleware,
     aclMiddleware([ROLES.ADMIN]),
@@ -176,7 +170,6 @@ router.post(
     aclMiddleware([ROLES.ADMIN]),
     mediaMiddleware.multiple('files'),
   ],
-  resizeMultipleImages(1200, 80),
   mediaController.multiplePict
   /*
     #swagger.tags = ['Media']

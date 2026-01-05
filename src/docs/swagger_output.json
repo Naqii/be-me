@@ -170,7 +170,7 @@
         }
       }
     },
-    "/media/upload-arch": {
+    "/media/single-arch": {
       "post": {
         "tags": [
           "Media"
@@ -1312,9 +1312,13 @@
       "RemoveMediaRequest": {
         "type": "object",
         "properties": {
-          "fileUrl": {
+          "public_id": {
             "type": "string",
             "example": ""
+          },
+          "resource_type": {
+            "type": "string",
+            "example": "image/video/raw"
           }
         },
         "xml": {
@@ -1420,7 +1424,7 @@
             "type": "boolean",
             "example": true
           },
-          "dateFinished": {
+          "updated": {
             "type": "string",
             "example": "2025-01-01"
           }

@@ -12,25 +12,83 @@ cloudinary.config({
   api_secret: CLOUDINARY_API_SECRET,
 });
 
+/**
+ * HANYA untuk image kecil
+ */
 const toDataURL = (file: Express.Multer.File) => {
-  const b64 = Buffer.from(file.buffer).toString('base64');
-  const dataURL = `data:${file.mimetype};base64,${b64}`;
-  return dataURL;
+  return `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
 };
 
-const getPublicIdFromFileUrl = (fileUrl: string) => {
-  const fileNameUsingSubstring = fileUrl.substring(
-    fileUrl.lastIndexOf('/') + 1
-  );
-  const publicId = fileNameUsingSubstring.substring(
-    0,
-    fileNameUsingSubstring.lastIndexOf('.')
-  );
-  return publicId;
+type UploadResult = {
+  url: string;
+  publicId: string;
+  resourceType: 'image' | 'video' | 'raw';
 };
 
 export default {
-  async uploadArchive(file: Express.Multer.File) {
+  /**
+   * IMAGE
+   */
+  async uploadSingle(file: Express.Multer.File): Promise<UploadResult> {
+    try {
+      const result = await cloudinary.uploader.upload(toDataURL(file), {
+        resource_type: 'image',
+      });
+
+      return {
+        url: result.secure_url,
+        publicId: result.public_id,
+        resourceType: 'image',
+      };
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw new Error('Failed to upload image');
+    }
+  },
+
+  /**
+   * VIDEO (stream, tanpa DataURL)
+   */
+  async uploadVideo(file: Express.Multer.File): Promise<UploadResult> {
+    try {
+      return await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { resource_type: 'video' },
+          (error, result) => {
+            if (error || !result) return reject(error);
+
+            resolve({
+              url: result.secure_url,
+              publicId: result.public_id,
+              resourceType: 'video',
+            });
+          }
+        );
+
+        streamifier.createReadStream(file.buffer).pipe(uploadStream);
+      });
+    } catch (error) {
+      console.error('Error uploading video:', error);
+      throw new Error('Failed to upload video');
+    }
+  },
+
+  /**
+   * MULTIPLE IMAGE
+   */
+  async uploadMultiple(files: Express.Multer.File[]): Promise<UploadResult[]> {
+    try {
+      return await Promise.all(files.map(this.uploadSingle));
+    } catch (error) {
+      console.error('Error uploading multiple images:', error);
+      throw new Error('Failed to upload multiple images');
+    }
+  },
+
+  /**
+   * ARCHIVE (zip, rar, 7z, tar, gz, dll)
+   */
+  async uploadArchive(file: Express.Multer.File): Promise<UploadResult> {
     try {
       const allowedMimeTypes = [
         'application/zip',
@@ -38,84 +96,64 @@ export default {
         'application/x-7z-compressed',
         'application/x-tar',
         'application/gzip',
+        'application/octet-stream', // fallback
       ];
 
       if (!allowedMimeTypes.includes(file.mimetype)) {
         throw new Error('Invalid archive format');
       }
 
-      const fileDataURL = toDataURL(file);
-      const result = await cloudinary.uploader.upload(fileDataURL, {
-        resource_type: 'raw',
+      return await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            resource_type: 'raw',
+            use_filename: true, // pakai nama asli
+            unique_filename: true, // hindari collision
+            filename_override: file.originalname, // PERTAHANKAN EKSTENSI
+          },
+          (error, result) => {
+            if (error || !result) return reject(error);
+
+            resolve({
+              url: result.secure_url,
+              publicId: result.public_id,
+              resourceType: 'raw',
+            });
+          }
+        );
+
+        streamifier.createReadStream(file.buffer).pipe(uploadStream);
       });
-      return result;
     } catch (error) {
-      console.error('Error uploading archive: ', error);
+      console.error('Error uploading archive:', error);
       throw new Error('Failed to upload archive');
     }
   },
 
-  async uploadSingle(file: Express.Multer.File) {
+  /**
+   * DELETE — SATU-SATUNYA CARA YANG BENAR
+   */
+  async remove(
+    publicId: string,
+    resourceType: 'image' | 'video' | 'raw' = 'image'
+  ) {
     try {
-      const fileDataURL = toDataURL(file);
-      const result = await cloudinary.uploader.upload(fileDataURL, {
-        resource_type: 'auto',
-      });
-      return result;
-    } catch (error) {
-      console.error('Error uploading file: ', error);
-      throw new Error('Failed to upload file');
-    }
-  },
-
-  async uploadVideo(file: Express.Multer.File) {
-    try {
-      const fileSizeMB = file.size / (1024 * 1024);
-
-      if (fileSizeMB > 10) {
-        return new Promise((resolve, reject) => {
-          const uploadStream = cloudinary.uploader.upload_stream(
-            { resource_type: 'video' },
-            (error, result) => {
-              if (error) reject(error);
-              else resolve(result);
-            }
-          );
-
-          streamifier.createReadStream(file.buffer).pipe(uploadStream);
-        });
+      if (!publicId) {
+        throw new Error('publicId is required');
       }
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      throw new Error('Failed to upload file');
-    }
-  },
-
-  async uploadMultiple(files: Express.Multer.File[]) {
-    try {
-      const uploadBatch = files.map((item) => this.uploadSingle(item));
-      const result = await Promise.all(uploadBatch);
-      return result;
-    } catch (error) {
-      console.error('Error uploading multiple file: ', error);
-      throw new Error('Failed to upload files');
-    }
-  },
-
-  async remove(fileUrl: string) {
-    try {
-      const publicId = getPublicIdFromFileUrl(fileUrl);
-
-      const isVideo = fileUrl.match(/\.(mp4|mov|avi|mkv|webm)$/i);
-      const resourceType = isVideo ? 'video' : 'image';
 
       const result = await cloudinary.uploader.destroy(publicId, {
         resource_type: resourceType,
       });
+
+      if (result.result !== 'ok') {
+        throw new Error(`Cloudinary delete failed: ${result.result}`);
+      }
+
       return result;
     } catch (error) {
-      console.error('Error removing file: ', error);
-      throw new Error('Failed to remove file');
+      console.error('Error removing file:', error);
+      throw error;
     }
   },
 };
