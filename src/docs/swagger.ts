@@ -83,6 +83,8 @@ const doc = {
 
       CreateAssetRequest: {
         title: 'Minecraft-Damaged-1',
+        type: 'ObjectId',
+        isShow: true,
         thumbnail: {
           url: '',
           publicId: '',
@@ -93,15 +95,17 @@ const doc = {
           publicId: '',
           resourceType: 'raw',
         },
-        type: 'ObjectId',
-        isShow: true,
         updated: '2025-01-01',
       },
 
       CreateTemplateRequest: {
         name: 'Animation',
         description: 'Animation',
-        icon: 'https://res.cloudinary.com/dzfxaqjrp/image/upload/v1765531070/ywhci8wzszuxyxhdyvru.webp',
+        icon: {
+          url: '',
+          publicId: '',
+          resourceType: 'image',
+        },
       },
     },
   },

@@ -1434,6 +1434,14 @@
             "type": "string",
             "example": "Minecraft-Damaged-1"
           },
+          "type": {
+            "type": "string",
+            "example": "ObjectId"
+          },
+          "isShow": {
+            "type": "boolean",
+            "example": true
+          },
           "thumbnail": {
             "type": "object",
             "properties": {
@@ -1468,14 +1476,6 @@
               }
             }
           },
-          "type": {
-            "type": "string",
-            "example": "ObjectId"
-          },
-          "isShow": {
-            "type": "boolean",
-            "example": true
-          },
           "updated": {
             "type": "string",
             "example": "2025-01-01"
@@ -1497,8 +1497,21 @@
             "example": "Animation"
           },
           "icon": {
-            "type": "string",
-            "example": "https://res.cloudinary.com/dzfxaqjrp/image/upload/v1765531070/ywhci8wzszuxyxhdyvru.webp"
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "example": ""
+              },
+              "publicId": {
+                "type": "string",
+                "example": ""
+              },
+              "resourceType": {
+                "type": "string",
+                "example": "image"
+              }
+            }
           }
         },
         "xml": {

@@ -5,19 +5,37 @@ export const ASSETS_MODEL_NAME = 'Assets';
 
 export const assetsDTO = Yup.object({
   title: Yup.string().required(),
-  thumbnail: Yup.string().required(),
-  asset: Yup.string().required(),
   type: Yup.string().required(),
   isShow: Yup.boolean().required(),
+  thumbnail: Yup.object({
+    url: Yup.string().required(),
+    publicId: Yup.string().required(),
+    resourceType: Yup.mixed<'image'>().oneOf(['image']).required(),
+  }).required(),
+  asset: Yup.object({
+    url: Yup.string().required(),
+    publicId: Yup.string().required(),
+    resourceType: Yup.mixed<'raw'>().oneOf(['raw']).required(),
+  }).required(),
   updated: Yup.date().required(),
 });
 
-export type TypeAssets = Yup.InferType<typeof assetsDTO>;
+export type MediaAssets = {
+  url: string;
+  publicId: string;
+  resourceType: 'image' | 'raw';
+};
 
-export interface Assets extends Omit<TypeAssets, 'type' | 'updated'> {
+export type TypeAssets = {
+  title: string;
   type: ObjectId;
+  isShow: boolean;
+  thumbnail: MediaAssets;
+  asset: MediaAssets;
   updated: Date;
-}
+};
+
+interface Assets extends TypeAssets {}
 
 const assetSchema = new Schema<Assets>(
   {
@@ -25,16 +43,6 @@ const assetSchema = new Schema<Assets>(
       type: Schema.Types.String,
       required: true,
       unique: true,
-    },
-
-    thumbnail: {
-      type: Schema.Types.String,
-      required: true,
-    },
-
-    asset: {
-      type: Schema.Types.String,
-      required: true,
     },
 
     type: {
@@ -50,6 +58,42 @@ const assetSchema = new Schema<Assets>(
     updated: {
       type: Schema.Types.Date,
       required: true,
+    },
+
+    thumbnail: {
+      type: {
+        url: {
+          type: Schema.Types.String,
+          required: true,
+        },
+        publicId: {
+          type: Schema.Types.String,
+          required: true,
+        },
+        resourceType: {
+          type: Schema.Types.String,
+          enum: ['image'],
+          required: true,
+        },
+      },
+    },
+
+    asset: {
+      type: {
+        url: {
+          type: Schema.Types.String,
+          required: true,
+        },
+        publicId: {
+          type: Schema.Types.String,
+          required: true,
+        },
+        resourceType: {
+          type: Schema.Types.String,
+          enum: ['raw'],
+          required: true,
+        },
+      },
     },
   },
   { timestamps: true }

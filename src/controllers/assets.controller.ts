@@ -112,21 +112,42 @@ export default {
       const { id } = req.params;
 
       if (!isValidObjectId(id)) {
-        return response.notFound(res, 'failed to remove an asset');
+        return response.notFound(res, 'asset not found');
       }
 
-      const result = await AssetModel.findByIdAndDelete(id, {
-        new: true,
-      });
+      const result = await AssetModel.findByIdAndDelete(id);
 
-      if (!result) return response.notFound(res, 'asset not found');
+      if (!result) {
+        return response.notFound(res, 'asset not found');
+      }
 
-      await uploader.remove(result?.thumbnail);
-      await uploader.remove(result?.asset);
+      const deletes: Promise<any>[] = [];
 
-      response.success(res, result, 'success remove an asset');
+      // remove thumbnail (image)
+      if (result.thumbnail?.publicId) {
+        deletes.push(
+          uploader.remove(
+            result.thumbnail.publicId,
+            result.thumbnail.resourceType // 'image'
+          )
+        );
+      }
+
+      // remove main asset (archive/raw)
+      if (result.asset?.publicId) {
+        deletes.push(
+          uploader.remove(
+            result.asset.publicId,
+            result.asset.resourceType // 'raw'
+          )
+        );
+      }
+
+      await Promise.all(deletes);
+
+      response.success(res, result, 'success remove asset');
     } catch (error) {
-      response.error(res, error, 'failed to remove an asset');
+      response.error(res, error, 'failed to remove asset');
     }
   },
 };

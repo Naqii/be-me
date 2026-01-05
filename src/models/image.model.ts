@@ -9,16 +9,14 @@ export const imageDTO = Yup.object({
   image: Yup.object({
     url: Yup.string().required(),
     publicId: Yup.string().required(),
-    resourceType: Yup.mixed<'image' | 'video' | 'raw'>()
-      .oneOf(['image', 'video', 'raw'])
-      .required(),
+    resourceType: Yup.mixed<'image'>().oneOf(['image']).required(),
   }).required(),
 });
 
 export type ImageAsset = {
   url: string;
   publicId: string;
-  resourceType: 'image' | 'video' | 'raw';
+  resourceType: 'image';
 };
 
 export type TypeImage = {

@@ -114,13 +114,13 @@ export default {
         return response.notFound(res, 'failed to remove a template');
       }
 
-      const result = await TemplateModel.findByIdAndDelete(id, {
-        new: true,
-      });
+      const result = await TemplateModel.findByIdAndDelete(id);
 
-      if (!result) return response.notFound(res, 'image not found');
+      if (!result) return response.notFound(res, 'template not found');
 
-      await uploader.remove(result?.icon);
+      const { publicId, resourceType } = result.icon;
+
+      await uploader.remove(publicId, resourceType);
 
       response.success(res, result, 'success remove a banner');
     } catch (error) {
