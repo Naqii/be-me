@@ -704,10 +704,10 @@
         ]
       }
     },
-    "/templates": {
+    "/category": {
       "post": {
         "tags": [
-          "Template"
+          "Category"
         ],
         "description": "",
         "parameters": [
@@ -734,12 +734,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTemplateRequest"
+                "$ref": "#/components/schemas/CreateCategoryRequest"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTemplateRequest"
+                "$ref": "#/components/schemas/CreateCategoryRequest"
               }
             }
           }
@@ -747,7 +747,7 @@
       },
       "get": {
         "tags": [
-          "Template"
+          "Category"
         ],
         "description": "",
         "parameters": [
@@ -780,10 +780,10 @@
         }
       }
     },
-    "/templates/{id}": {
+    "/category/{id}": {
       "get": {
         "tags": [
-          "Template"
+          "Category"
         ],
         "description": "",
         "parameters": [
@@ -804,7 +804,7 @@
       },
       "put": {
         "tags": [
-          "Template"
+          "Category"
         ],
         "description": "",
         "parameters": [
@@ -839,12 +839,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTemplateRequest"
+                "$ref": "#/components/schemas/CreateCategoryRequest"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTemplateRequest"
+                "$ref": "#/components/schemas/CreateCategoryRequest"
               }
             }
           }
@@ -852,7 +852,7 @@
       },
       "delete": {
         "tags": [
-          "Template"
+          "Category"
         ],
         "description": "",
         "parameters": [
@@ -1281,7 +1281,7 @@
           "name": "CreateAssetRequest"
         }
       },
-      "CreateTemplateRequest": {
+      "CreateCategoryRequest": {
         "type": "object",
         "properties": {
           "name": {
@@ -1311,7 +1311,7 @@
           }
         },
         "xml": {
-          "name": "CreateTemplateRequest"
+          "name": "CreateCategoryRequest"
         }
       }
     }

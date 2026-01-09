@@ -17,7 +17,7 @@ export const assetsDTO = Yup.object({
     publicId: Yup.string().required(),
     resourceType: Yup.mixed<'raw'>().oneOf(['raw']).required(),
   }).required(),
-  updated: Yup.date().required(),
+  updated: Yup.string().required(),
 });
 
 export type MediaAssets = {
@@ -56,7 +56,7 @@ const assetSchema = new Schema<Assets>(
     },
 
     updated: {
-      type: Schema.Types.Date,
+      type: Schema.Types.String,
       required: true,
     },
 

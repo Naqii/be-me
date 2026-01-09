@@ -8,7 +8,7 @@ import mediaController from '../controllers/media.controller';
 import imageController from '../controllers/image.controller';
 import workController from '../controllers/work.controller';
 import assetsController from '../controllers/assets.controller';
-import templateController from '../controllers/template.controller';
+import categoryController from '../controllers/category.controller';
 const router = express.Router();
 
 //register schema
@@ -336,61 +336,61 @@ router.delete(
    */
 );
 
-//template schema
+//type schema
 router.post(
-  '/templates',
+  '/category',
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
-  templateController.create
+  categoryController.create
   /*
-    #swagger.tags = ['Template']
+    #swagger.tags = ['Category']
     #swagger.security = [{
       "bearerAuth": {}
     }]
     #swagger.requestBody = {
       required: true,
       schema: {
-        $ref: "#/components/schemas/CreateTemplateRequest"
+        $ref: "#/components/schemas/CreateCategoryRequest"
       }
     }
    */
 );
 router.get(
-  '/templates',
-  templateController.findAll
+  '/category',
+  categoryController.findAll
   /*
-    #swagger.tags = ['Template']
+    #swagger.tags = ['Category']
   */
 );
 router.get(
-  '/templates/:id',
-  templateController.findOne
+  '/category/:id',
+  categoryController.findOne
   /*
-    #swagger.tags = ['Template']
+    #swagger.tags = ['Category']
   */
 );
 router.put(
-  '/templates/:id',
+  '/category/:id',
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
-  imageController.update
+  categoryController.update
   /*
-    #swagger.tags = ['Template']
+    #swagger.tags = ['Category']
     #swagger.security = [{
       "bearerAuth": {}
     }]
     #swagger.requestBody = {
       required: true,
       schema: {
-        $ref: "#/components/schemas/CreateTemplateRequest"
+        $ref: "#/components/schemas/CreateCategoryRequest"
       }
     }
    */
 );
 router.delete(
-  '/templates/:id',
+  '/category/:id',
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
-  imageController.remove
+  categoryController.remove
   /*
-    #swagger.tags = ['Template']
+    #swagger.tags = ['Category']
     #swagger.security = [{
       "bearerAuth": {}
     }]

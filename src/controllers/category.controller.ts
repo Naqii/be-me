@@ -1,33 +1,33 @@
 import { Response } from 'express';
 import response from '../utils/response';
 import { IPaginationQuery, IReqUser } from '../utils/interface';
-import TemplateModel, {
-  templateDTO,
-  TypeTemplate,
-} from '../models/template.model';
 import { FilterQuery, isValidObjectId } from 'mongoose';
 import uploader from '../utils/uploader';
+import CategoryModel, {
+  categoryDTO,
+  TypeCategory,
+} from '../models/category.model';
 
 export default {
   async create(req: IReqUser, res: Response) {
     try {
-      const payload = { ...req.body } as TypeTemplate;
+      const payload = { ...req.body } as TypeCategory;
 
-      const existingByName = await TemplateModel.findOne({
+      const existingByName = await CategoryModel.findOne({
         name: payload.name,
       });
       if (existingByName)
         return response.error(
           res,
           null,
-          'Template with the same name already exists'
+          'Category with the same name already exists'
         );
 
-      await templateDTO.validate(payload);
-      const result = await TemplateModel.create(payload);
-      response.success(res, result, 'success to create a template');
+      await categoryDTO.validate(payload);
+      const result = await CategoryModel.create(payload);
+      response.success(res, result, 'success to create a Category');
     } catch (error) {
-      response.error(res, error, 'failed to create a template');
+      response.error(res, error, 'failed to create a Category');
     }
   },
   async findAll(req: IReqUser, res: Response) {
@@ -38,7 +38,7 @@ export default {
         search,
       } = req.query as unknown as IPaginationQuery;
 
-      const query: FilterQuery<TypeTemplate> = {};
+      const query: FilterQuery<TypeCategory> = {};
 
       if (search) {
         Object.assign(query, {
@@ -49,13 +49,13 @@ export default {
         });
       }
 
-      const result = await TemplateModel.find(query)
+      const result = await CategoryModel.find(query)
         .limit(limit)
         .skip((page - 1) * limit)
         .sort({ createdAt: -1 })
         .exec();
 
-      const count = await TemplateModel.countDocuments(query);
+      const count = await CategoryModel.countDocuments(query);
 
       response.pagination(
         res,
@@ -65,10 +65,10 @@ export default {
           current: page,
           totalPages: Math.ceil(count / limit),
         },
-        'success find All template'
+        'success find All Category'
       );
     } catch (error) {
-      response.error(res, error, 'failed to find all template');
+      response.error(res, error, 'failed to find all Category');
     }
   },
   async findOne(req: IReqUser, res: Response) {
@@ -76,18 +76,18 @@ export default {
       const { id } = req.params;
 
       if (!isValidObjectId(id)) {
-        return response.notFound(res, 'failed find a template');
+        return response.notFound(res, 'failed find a Category');
       }
 
-      const result = await TemplateModel.findById(id);
+      const result = await CategoryModel.findById(id);
 
       if (!result) {
-        return response.notFound(res, 'failed find a template');
+        return response.notFound(res, 'failed find a Category');
       }
 
-      response.success(res, result, 'success find one template');
+      response.success(res, result, 'success find one Category');
     } catch (error) {
-      response.error(res, error, 'failed to find a template');
+      response.error(res, error, 'failed to find a Category');
     }
   },
   async update(req: IReqUser, res: Response) {
@@ -95,15 +95,15 @@ export default {
       const { id } = req.params;
 
       if (!isValidObjectId(id)) {
-        return response.notFound(res, 'failed to update a template');
+        return response.notFound(res, 'failed to update a Category');
       }
 
-      const result = await TemplateModel.findByIdAndUpdate(id, req.body, {
+      const result = await CategoryModel.findByIdAndUpdate(id, req.body, {
         new: true,
       });
-      response.success(res, result, 'success update a template');
+      response.success(res, result, 'success update a Category');
     } catch (error) {
-      response.error(res, error, 'failed to update a template');
+      response.error(res, error, 'failed to update a Category');
     }
   },
   async remove(req: IReqUser, res: Response) {
@@ -111,12 +111,12 @@ export default {
       const { id } = req.params;
 
       if (!isValidObjectId(id)) {
-        return response.notFound(res, 'failed to remove a template');
+        return response.notFound(res, 'failed to remove a Category');
       }
 
-      const result = await TemplateModel.findByIdAndDelete(id);
+      const result = await CategoryModel.findByIdAndDelete(id);
 
-      if (!result) return response.notFound(res, 'template not found');
+      if (!result) return response.notFound(res, 'Category not found');
 
       const { publicId, resourceType } = result.icon;
 

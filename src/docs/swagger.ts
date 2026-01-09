@@ -89,7 +89,7 @@ const doc = {
         updated: '2025-01-01',
       },
 
-      CreateTemplateRequest: {
+      CreateCategoryRequest: {
         name: 'Animation',
         description: 'Animation',
         icon: {

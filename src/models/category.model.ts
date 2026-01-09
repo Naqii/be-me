@@ -1,9 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
 import * as Yup from 'yup';
 
-export const TEMPLATE_MODEL_NAME = 'Type';
+export const CATEGORY_MODEL_NAME = 'Category';
 
-export const templateDTO = Yup.object({
+export const categoryDTO = Yup.object({
   name: Yup.string().required(),
   description: Yup.string().required(),
   icon: Yup.object({
@@ -19,15 +19,15 @@ export type IconAsset = {
   resourceType: 'image';
 };
 
-export type TypeTemplate = {
+export type TypeCategory = {
   name: string;
   description: string;
   icon: IconAsset;
 };
 
-interface Template extends TypeTemplate {}
+interface Category extends TypeCategory {}
 
-const templateSchema = new Schema<Template>(
+const categorySchema = new Schema<Category>(
   {
     name: {
       type: Schema.Types.String,
@@ -57,8 +57,8 @@ const templateSchema = new Schema<Template>(
     },
   },
   { timestamps: true }
-).index({ title: 'text' });
+).index({ name: 'text' });
 
-const TemplateModel = mongoose.model(TEMPLATE_MODEL_NAME, templateSchema);
+const CategoryModel = mongoose.model(CATEGORY_MODEL_NAME, categorySchema);
 
-export default TemplateModel;
+export default CategoryModel;
