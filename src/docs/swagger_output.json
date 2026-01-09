@@ -1230,7 +1230,7 @@
             "type": "string",
             "example": "Minecraft-Damaged-1"
           },
-          "type": {
+          "category": {
             "type": "string",
             "example": "ObjectId"
           },

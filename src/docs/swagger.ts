@@ -74,7 +74,7 @@ const doc = {
 
       CreateAssetRequest: {
         title: 'Minecraft-Damaged-1',
-        type: 'ObjectId',
+        category: 'ObjectId',
         isShow: true,
         thumbnail: {
           url: '',

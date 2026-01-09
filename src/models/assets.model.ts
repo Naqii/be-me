@@ -5,7 +5,7 @@ export const ASSETS_MODEL_NAME = 'Assets';
 
 export const assetsDTO = Yup.object({
   title: Yup.string().required(),
-  type: Yup.string().required(),
+  category: Yup.string().required(),
   isShow: Yup.boolean().required(),
   thumbnail: Yup.object({
     url: Yup.string().required(),
@@ -28,7 +28,7 @@ export type MediaAssets = {
 
 export type TypeAssets = {
   title: string;
-  type: ObjectId;
+  category: ObjectId;
   isShow: boolean;
   thumbnail: MediaAssets;
   asset: MediaAssets;
@@ -45,7 +45,7 @@ const assetSchema = new Schema<Assets>(
       unique: true,
     },
 
-    type: {
+    category: {
       type: Schema.Types.ObjectId,
       required: true,
     },
