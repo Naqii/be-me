@@ -4,6 +4,7 @@ import { IPaginationQuery, IReqUser } from '../utils/interface';
 import response from '../utils/response';
 import { Response } from 'express';
 import uploader from '../utils/uploader';
+import { downloadFromCloudinary } from '../utils/downloader';
 
 export default {
   async create(req: IReqUser, res: Response) {
@@ -87,6 +88,34 @@ export default {
       response.success(res, result, 'success find one asset');
     } catch (error) {
       response.error(res, error, 'failed to find one asset');
+    }
+  },
+
+  async download(req: IReqUser, res: Response) {
+    try {
+      const { id } = req.params;
+
+      if (!isValidObjectId(id)) {
+        return res.status(404).json({ message: 'Invalid asset id' });
+      }
+
+      const asset = await AssetModel.findById(id);
+
+      if (!asset || !asset.asset?.url) {
+        return res.status(404).json({ message: 'Asset not found' });
+      }
+
+      const fileUrl = asset.asset.url;
+      const filename = `${asset.asset.publicId}.zip`;
+
+      await downloadFromCloudinary({
+        url: fileUrl,
+        filename,
+        res,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Failed to download asset' });
     }
   },
 

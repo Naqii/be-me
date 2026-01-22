@@ -429,6 +429,13 @@ router.get(
     #swagger.tags = ['Asset']
   */
 );
+router.get(
+  '/assets/:id/download',
+  assetsController.download
+  /*
+    #swagger.tags = ['Asset']
+  */
+);
 router.put(
   '/assets/:id',
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],

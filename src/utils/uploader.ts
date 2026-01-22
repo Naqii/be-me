@@ -12,6 +12,8 @@ cloudinary.config({
   api_secret: CLOUDINARY_API_SECRET,
 });
 
+import path from 'path';
+
 /**
  * HANYA untuk image kecil
  */
@@ -104,12 +106,16 @@ export default {
       }
 
       return await new Promise((resolve, reject) => {
+        const originalName = file.originalname;
+        const baseName = path.parse(originalName).name;
+        const publicId = `${baseName}-${Date.now()}`;
+
         const uploadStream = cloudinary.uploader.upload_stream(
           {
             resource_type: 'raw',
-            use_filename: true, // pakai nama asli
-            unique_filename: true, // hindari collision
-            filename_override: file.originalname, // PERTAHANKAN EKSTENSI
+            public_id: publicId,
+            overwrite: true,
+            invalidate: true,
           },
           (error, result) => {
             if (error || !result) return reject(error);
