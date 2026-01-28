@@ -1153,29 +1153,6 @@
           }
         }
       }
-    },
-    "/{customAlias}": {
-      "get": {
-        "tags": [
-          "URLShort"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "customAlias",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
     }
   },
   "components": {

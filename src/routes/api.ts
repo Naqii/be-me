@@ -484,11 +484,5 @@ router.get(
     #swagger.tags = ['URLShort']
   */
 );
-router.get(
-  '/:customAlias',
-  urlController.redirectOriginalUrl /*
-    #swagger.tags = ['URLShort']
-  */
-);
 
 export default router;

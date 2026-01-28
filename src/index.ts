@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import router from './routes/api';
+import urlRouter from './routes/url';
 import db from './utils/database';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
@@ -27,8 +28,9 @@ async function init() {
       });
     });
 
-    app.use('/api', router);
     docs(app);
+    app.use('/api', router);
+    app.use('/', urlRouter);
 
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
