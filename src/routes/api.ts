@@ -478,7 +478,7 @@ router.post(
      */
 );
 router.get(
-  '/all-url',
+  '/shorten/all-url',
   urlController.findAll
   /*
     #swagger.tags = ['URLShort']
