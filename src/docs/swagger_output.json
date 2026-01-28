@@ -1092,6 +1092,9 @@
     },
     "/shorten": {
       "post": {
+        "tags": [
+          "URLShort"
+        ],
         "description": "",
         "responses": {
           "404": {
@@ -1115,8 +1118,47 @@
         }
       }
     },
+    "/all-url": {
+      "get": {
+        "tags": [
+          "URLShort"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/{customAlias}": {
       "get": {
+        "tags": [
+          "URLShort"
+        ],
         "description": "",
         "parameters": [
           {

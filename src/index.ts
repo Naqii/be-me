@@ -27,7 +27,7 @@ async function init() {
       });
     });
 
-    app.use('/', router);
+    app.use('/api', router);
     docs(app);
 
     app.listen(PORT, () => {

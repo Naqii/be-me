@@ -470,12 +470,25 @@ router.post(
   '/shorten',
   urlController.createShortUrl
   /**
+     #swagger.tags = ['URLShort']
      #swagger.requestBody = {
         required: true,
         schema: {$ref: "#/components/schemas/ShortenUrlRequest"}
      }
      */
 );
-router.get('/:customAlias', urlController.redirectOriginalUrl);
+router.get(
+  '/all-url',
+  urlController.findAll
+  /*
+    #swagger.tags = ['URLShort']
+  */
+);
+router.get(
+  '/:customAlias',
+  urlController.redirectOriginalUrl /*
+    #swagger.tags = ['URLShort']
+  */
+);
 
 export default router;

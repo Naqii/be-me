@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import response from '../utils/response';
 import { isValidUrl } from '../utils/validatorUrl';
-import UrlModel, { urlDTO } from '../models/url.model';
+import UrlModel, { TypeUrl, urlDTO } from '../models/url.model';
 import { BASE_URL } from '../utils/env';
 import { error } from 'console';
 import { formatInputAlias } from '../utils/formatAlias';
+import { IPaginationQuery, IReqUser } from '../utils/interface';
+import { FilterQuery } from 'mongoose';
 
 export default {
   async createShortUrl(req: Request, res: Response) {
@@ -45,10 +47,51 @@ export default {
     }
   },
 
+  async findAll(req: IReqUser, res: Response) {
+    try {
+      const {
+        limit = 10,
+        page = 1,
+        search,
+      } = req.query as unknown as IPaginationQuery;
+
+      const query: FilterQuery<TypeUrl> = {};
+
+      if (search) {
+        Object.assign(query, {
+          ...query,
+          $text: {
+            $search: search,
+          },
+        });
+      }
+
+      const result = await UrlModel.find(query)
+        .limit(limit)
+        .skip((page - 1) * limit)
+        .sort({ createdAt: -1 })
+        .exec();
+
+      const count = await UrlModel.countDocuments(query);
+
+      response.pagination(
+        res,
+        result,
+        {
+          total: count,
+          current: page,
+          totalPages: Math.ceil(count / limit),
+        },
+        'success find All Works'
+      );
+    } catch (error) {
+      response.error(res, error, 'failed to find all Works');
+    }
+  },
+
   async redirectOriginalUrl(req: Request, res: Response) {
     try {
       const { customAlias } = req.params;
-      console.log(customAlias);
 
       // Find the entry by customAlias
       const alias = await UrlModel.findOne({ customAlias });
