@@ -98,6 +98,11 @@ const doc = {
           resourceType: 'image',
         },
       },
+
+      ShortenUrlRequest: {
+        originalUrl: 'https://contohurlpanjang/dowo/banget',
+        customAlias: 'url pendek',
+      },
     },
   },
 };

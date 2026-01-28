@@ -1089,6 +1089,51 @@
           }
         }
       }
+    },
+    "/shorten": {
+      "post": {
+        "description": "",
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShortenUrlRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/ShortenUrlRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{customAlias}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "customAlias",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1338,6 +1383,22 @@
         },
         "xml": {
           "name": "CreateCategoryRequest"
+        }
+      },
+      "ShortenUrlRequest": {
+        "type": "object",
+        "properties": {
+          "originalUrl": {
+            "type": "string",
+            "example": "https://contohurlpanjang/dowo/banget"
+          },
+          "customAlias": {
+            "type": "string",
+            "example": "url pendek"
+          }
+        },
+        "xml": {
+          "name": "ShortenUrlRequest"
         }
       }
     }

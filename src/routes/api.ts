@@ -9,6 +9,7 @@ import imageController from '../controllers/image.controller';
 import workController from '../controllers/work.controller';
 import assetsController from '../controllers/assets.controller';
 import categoryController from '../controllers/category.controller';
+import urlController from '../controllers/url.controller';
 const router = express.Router();
 
 //register schema
@@ -464,5 +465,17 @@ router.delete(
     }]
    */
 );
+
+router.post(
+  '/shorten',
+  urlController.createShortUrl
+  /**
+     #swagger.requestBody = {
+        required: true,
+        schema: {$ref: "#/components/schemas/ShortenUrlRequest"}
+     }
+     */
+);
+router.get('/:customAlias', urlController.redirectOriginalUrl);
 
 export default router;
