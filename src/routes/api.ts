@@ -485,7 +485,7 @@ router.get(
   */
 );
 router.get(
-  '/:customAlias',
+  '/api/:customAlias',
   urlController.redirectOriginalUrl /*
     #swagger.tags = ['URLShort']
   */
