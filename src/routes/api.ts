@@ -10,6 +10,12 @@ import workController from '../controllers/work.controller';
 import assetsController from '../controllers/assets.controller';
 import categoryController from '../controllers/category.controller';
 import urlController from '../controllers/url.controller';
+import fetchController from '../controllers/fetch.controller';
+import {
+  brustLimiter,
+  dailyLimiter,
+  shortenLimiter,
+} from '../middleware/rateLimit.middleware';
 const router = express.Router();
 
 //register schema
@@ -468,9 +474,25 @@ router.delete(
 
 router.post(
   '/shorten',
+  shortenLimiter,
   urlController.createShortUrl
   /**
      #swagger.tags = ['URLShort']
+     #swagger.requestBody = {
+        required: true,
+        schema: {$ref: "#/components/schemas/ShortenUrlRequest"}
+     }
+     */
+);
+router.post(
+  '/shorten/haqi',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  urlController.createShortUrl
+  /**
+     #swagger.tags = ['URLShort']
+         #swagger.security = [{
+      "bearerAuth": {}
+    }]
      #swagger.requestBody = {
         required: true,
         schema: {$ref: "#/components/schemas/ShortenUrlRequest"}
@@ -482,6 +504,28 @@ router.get(
   urlController.findAll
   /*
     #swagger.tags = ['URLShort']
+  */
+);
+
+router.get(
+  '/download',
+  brustLimiter,
+  dailyLimiter,
+  fetchController.downloadMedia
+  /*
+    #swagger.tags = ['Fetch from Youtube']
+  */
+);
+
+router.get(
+  '/download/haqi',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  fetchController.downloadMedia
+  /*
+    #swagger.tags = ['Fetch from Youtube']
+        #swagger.security = [{
+      "bearerAuth": {}
+    }]
   */
 );
 
