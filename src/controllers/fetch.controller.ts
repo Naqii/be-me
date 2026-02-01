@@ -29,23 +29,9 @@ export default {
 
       const metadata = await getYoutubeMetadata(url);
 
-      if (metadata.is_live) {
-        return res
-          .status(400)
-          .json({ message: 'Live streams are not supported' });
-      }
-
       if (!metadata.duration || metadata.duration > maxDuration) {
         return res.status(400).json({
           message: 'Media duration exceeds limit max 10min',
-        });
-      }
-
-      const estimatedSize = metadata.filesize || metadata.filesize_approx || 0;
-
-      if (estimatedSize > 50 * 1024 * 1024) {
-        return res.status(400).json({
-          message: 'File size too large',
         });
       }
 
