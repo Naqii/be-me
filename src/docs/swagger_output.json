@@ -1095,21 +1095,17 @@
         "tags": [
           "URLShort"
         ],
+        "summary": "Create short URL",
         "description": "",
         "responses": {
-          "404": {
-            "description": "Not Found"
+          "default": {
+            "description": ""
           }
         },
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ShortenUrlRequest"
-              }
-            },
-            "application/xml": {
               "schema": {
                 "$ref": "#/components/schemas/ShortenUrlRequest"
               }
@@ -1134,8 +1130,8 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found"
+          "default": {
+            "description": ""
           }
         },
         "security": [
@@ -1194,82 +1190,6 @@
             "description": ""
           }
         }
-      }
-    },
-    "/download": {
-      "get": {
-        "tags": [
-          "Fetch from Youtube"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "url",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "type",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/download/haqi": {
-      "get": {
-        "tags": [
-          "Fetch from Youtube"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "url",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "type",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ]
       }
     }
   },
@@ -1536,6 +1456,22 @@
         },
         "xml": {
           "name": "ShortenUrlRequest"
+        }
+      },
+      "FetchYtRequest": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "example": "url youtube"
+          },
+          "type": {
+            "type": "string",
+            "example": "audio/video"
+          }
+        },
+        "xml": {
+          "name": "FetchYtRequest"
         }
       }
     }

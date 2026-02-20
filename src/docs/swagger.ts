@@ -103,6 +103,11 @@ const doc = {
         originalUrl: 'https://contohurlpanjang/dowo/banget',
         customAlias: 'url pendek',
       },
+
+      FetchYtRequest: {
+        url: 'url youtube',
+        type: 'audio/video',
+      },
     },
   },
 };

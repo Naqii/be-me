@@ -23,10 +23,6 @@ export default {
       const formattedAlias = formatInputAlias(customAlias);
 
       const exists = await UrlModel.findOne({ customAlias: formattedAlias });
-      const reserved = ['server', 'url', 'api-docs'];
-      if (reserved.includes(customAlias)) {
-        return res.sendStatus(404);
-      }
 
       if (exists) {
         response.error(res, error, 'Alias alredy taken');
