@@ -10,12 +10,14 @@ import workController from '../controllers/work.controller';
 import assetsController from '../controllers/assets.controller';
 import categoryController from '../controllers/category.controller';
 import urlController from '../controllers/url.controller';
-// import fetchController from '../controllers/fetch.controller';
 import {
   brustLimiter,
   dailyLimiter,
   shortenLimiter,
 } from '../middleware/rateLimit.middleware';
+import { createJob, getJob } from '../controllers/job.controller';
+import { downloadJobResult } from '../controllers/download.controller';
+
 const router = express.Router();
 
 //register schema
@@ -514,15 +516,19 @@ router.get(
   */
 );
 
-// router.get(
-//   '/download',
-//   brustLimiter,
-//   dailyLimiter,
-//   fetchController.downloadMedia
-//   /*
-//     #swagger.tags = ['Fetch from Youtube']
-//   */
-// );
+router.post(
+  '/jobs',
+  // brustLimiter,
+  // dailyLimiter,
+  createJob
+  /*
+    #swagger.tags = ['Fetch from Youtube']
+  */
+);
+
+router.get('/jobs/:id', getJob);
+
+router.get('/download/:id', downloadJobResult);
 
 // router.get(
 //   '/download/haqi',

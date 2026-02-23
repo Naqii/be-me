@@ -3,3 +3,4 @@ node_modules
 app.js
 .prettierignore
 .prettierrc
+testWorker.ts

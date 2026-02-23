@@ -6,6 +6,7 @@ import db from './utils/database';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import docs from './docs/route';
+import { startWorker } from './utils/worker/worker';
 
 async function init() {
   try {
@@ -35,6 +36,7 @@ async function init() {
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
     });
+    startWorker();
   } catch (error) {
     console.log(error);
   }
