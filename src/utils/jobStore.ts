@@ -1,18 +1,19 @@
 import { JOB_TTL_MS } from './env';
-import { Job, JobStatus } from './jobTypes';
+import { Job } from './jobTypes';
 import { randomUUID } from 'crypto';
 
 class JobStore {
   private jobs = new Map<string, Job>();
   private queue: string[] = [];
 
-  create(url: string, type: 'audio' | 'video'): Job {
+  create(url: string, type: 'audio' | 'video', title: string): Job {
     const id = randomUUID();
     const now = Date.now();
 
     const job: Job = {
       id,
       url,
+      title,
       type,
       status: 'queued',
       createdAt: now,

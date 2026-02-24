@@ -8,6 +8,7 @@ export type JobStatus =
 export interface Job {
   id: string;
   url: string;
+  title: string;
   type: 'audio' | 'video';
   status: JobStatus;
   createdAt: number;

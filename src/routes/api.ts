@@ -15,8 +15,8 @@ import {
   dailyLimiter,
   shortenLimiter,
 } from '../middleware/rateLimit.middleware';
-import { createJob, getJob } from '../controllers/job.controller';
-import { downloadJobResult } from '../controllers/download.controller';
+import jobController from '../controllers/job.controller';
+import downloadController from '../controllers/download.controller';
 
 const router = express.Router();
 
@@ -518,17 +518,40 @@ router.get(
 
 router.post(
   '/jobs',
-  // brustLimiter,
-  // dailyLimiter,
-  createJob
+  brustLimiter,
+  dailyLimiter,
+  jobController.createJob
   /*
-    #swagger.tags = ['Fetch from Youtube']
+    #swagger.tags = ['Fetch Youtube URL']
+    #swagger.summary = 'Create fetch youtube URL'
+    #swagger.requestBody = {
+    required: true,
+    content: {
+      "application/json": {
+        schema: { $ref: "#/components/schemas/FetchYtRequest" }
+      }
+    }
+  }
   */
 );
 
-router.get('/jobs/:id', getJob);
+router.get(
+  '/jobs/:id',
+  jobController.getJob
+  /*
+    #swagger.tags = ['Fetch Youtube URL']
+    #swagger.summary = 'Get Status fetch youtube URL'
+  */
+);
 
-router.get('/download/:id', downloadJobResult);
+router.get(
+  '/download/:jobId',
+  downloadController.downloadJobResult
+  /*
+    #swagger.tags = ['Fetch Youtube URL']
+    #swagger.summary = 'Download fetch youtube URL'
+  */
+);
 
 // router.get(
 //   '/download/haqi',

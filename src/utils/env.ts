@@ -38,7 +38,7 @@ export const MAX_CONCURRENT_JOBS: number =
   Number(process.env.MAX_CONCURRENT_JOBS) || 1;
 
 export const JOB_TTL_MS: number =
-  Number(process.env.JOB_TTL_MS) || 2 * 60 * 1000;
+  Number(process.env.JOB_TTL_MS) || 3 * 60 * 1000;
 
 export const JOB_POLL_INTERVAL_MS: number =
   Number(process.env.JOB_POLL_INTERVAL_MS) || 1000; // worker sleep

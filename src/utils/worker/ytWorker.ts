@@ -28,7 +28,7 @@ export async function runYtDlpJob(job: Job): Promise<void> {
           job.url,
           '--no-playlist',
           '-f',
-          'bestvideo[height<=720]+bestaudio/best',
+          'bv*+ba/b',
           '--merge-output-format',
           'mp4',
           '-o',
@@ -55,9 +55,7 @@ export async function runYtDlpJob(job: Job): Promise<void> {
         jobStore.complete(job.id, outputPath);
       } else {
         jobStore.fail(job.id, 'yt-dlp failed');
-        if (fs.existsSync(outputPath)) {
-          fs.unlinkSync(outputPath);
-        }
+        if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
       }
 
       resolve();
