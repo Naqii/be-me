@@ -518,8 +518,8 @@ router.get(
 
 router.post(
   '/jobs',
-  brustLimiter,
-  dailyLimiter,
+  // brustLimiter,
+  // dailyLimiter,
   jobController.createJob
   /*
     #swagger.tags = ['Fetch Youtube URL']
